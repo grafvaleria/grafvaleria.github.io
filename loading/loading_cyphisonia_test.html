@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <head>
+    <title>WAPAPAPA WAPAPO</title>
+	<meta charset="utf-8"> <!-- encoding stuff -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="loading_style.css">
+
+</head>
+
+<body>
+
+<div class="main-div">
+
+    <div class="black-div element-slide-in" style="top: 0;"><a>CYPHISONIA</a></div>
+
+
+    <div align="center" style="opacity: 0;animation: progress-fade-in 600ms ease 300ms forwards;">
+
+        <img src="cyp_part1.png" width="300px" class="float-updown"><br />
+        <img src="cyp_part2.png" width="400px" class="float-updown img2">
+
+    </div>
+
+    <div class="desc-wrap">
+        <div class="desc d1">In Cyphisonia, there is no way to communicate <em>physically</em>.<br />
+            The strongest key is found in silence.</div>
+        <div class="desc d2">Cyphisonia is connected to the greater plane linking all the multiverse together.</div>
+        <div class="desc d3">Once a birthplace of gods for their universe, the Rules of this world now seek the way
+            to seal them off for good.</div>
+        <div class="desc d4">Lpp khcvvqlr bh Gqxsmfqrai tw pcvnmo mavs lpp grpxjiw glrij bzxro, ifbceaei lw hlvel jmbyvtik bsi Zcdw, bsi Xgc, svo xug Vwttg.</div>
+    </div>
+        
+    <div class="progress progress__fill"></div>
+    <div ><h2 class="loading" style="color: #54517A;">Loading.</h2></div>
+
+    <div class="slide-clip">
+        <div class="black-div element-slide-in from-bottom"></div>
+    </div>
+
+</div>
+
+<script src="cyp_rules.js"></script>
+
+<script>
+    const divs = document.querySelectorAll('.desc');
+const fadeDuration = 1000;      // 600ms fade-in/out
+const holdDuration = 6800;     // ~6.8s visible
+const totalDivs = divs.length;
+let current = 0;
+
+function showNext() {
+  const div = divs[current];
+
+  // Make div visible before fade-in
+  div.style.visibility = 'visible';
+  div.style.opacity = 1;  // fade-in
+
+  // Schedule fade-out after holdDuration
+  setTimeout(() => {
+    div.style.opacity = 0; // fade-out
+
+    // Hide completely after fadeDuration
+    setTimeout(() => {
+      div.style.visibility = 'hidden';
+    }, fadeDuration);
+
+  }, holdDuration);
+
+  // Move to next div after full cycle
+  current = (current + 1) % totalDivs;
+  setTimeout(showNext, holdDuration + fadeDuration);
+}
+
+// Initialize all divs
+divs.forEach(d => {
+  d.style.opacity = 0;
+  d.style.visibility = 'hidden';
+});
+
+// Start the loop after optional delay
+setTimeout(showNext, 1000);
+
+
+</script>
+
+</body>
+</html>
