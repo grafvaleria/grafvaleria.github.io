@@ -1,0 +1,232 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* #region DIVS */
+.main-div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* horizontal */
+  align-items: center;
+  background-color: #D6D1C4;
+}
+
+.black-div {
+  position: absolute;
+  width: 100%;
+  height: 80px; /* FIXED height — no % */
+  background-color: black;
+  display: grid;
+  place-items: center;
+
+  font-family: 'GENO';
+  font-size: 55px;
+  color: #54517A; 
+  -webkit-text-stroke: 1px #d9d7f8;
+letter-spacing: 0.15em;
+}
+
+.slide-clip {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70px; /* FIXED height — no % */
+  overflow: hidden;
+}
+/* #endregion */
+
+/* #region TEXT */
+h1, p{
+margin: 0;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 30px;
+}
+
+.loading, a {
+  margin: 0;
+  
+  opacity: 0;
+  animation: progress-fade-in 600ms ease 1s forwards;
+}
+
+.desc-wrap {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  bottom: 17.5%;
+  width: 90%;
+}
+
+.desc {
+  font-family: 'DELO';
+  color: #54517A;
+  position: absolute;
+  bottom: 16.5%;
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity 800ms ease; /* smooth fade */
+}
+
+.loading {
+    font-family: 'HALO';
+    position: absolute;
+    bottom: 15px;
+    right: 8px;
+    z-index: 1;
+}
+
+.loading::after {
+  content: '';
+  animation: dots 2s infinite;
+}
+
+@keyframes dots {
+  0%   { content: ''; }    /* default: 1 dot (from HTML) */
+  25%  { content: '.'; }   /* 2 dots */
+  50%  { content: '..'; }  /* 3 dots */
+  75%  { content: '..'; }  /* pause on 3 dots */
+  100% { content: ''; }    /* reset to 1 dot */
+}
+
+/* #endregion */
+
+
+
+
+
+
+
+/* #region ANIMS */
+
+.float-updown.img2 {
+    margin: -40px auto 0;
+    --float-range: 12px;
+} /*додавати при надобності*/
+
+/* анімація плавання вгору-вниз */
+.float-updown {
+    display: inline-block;
+    will-change: transform;
+    --float-offset: 0px; /* базовий офс */
+    --float-range: 8px;  /* базовий верхниз */
+    animation: float-updown 4.0s ease-in-out infinite;
+}
+
+/* змінювати в стайлі */
+@keyframes float-updown {
+    0%   { transform: translateY(var(--float-offset)); }
+    50%  { transform: translateY(calc(var(--float-offset) - var(--float-range))); }
+    100% { transform: translateY(var(--float-offset)); }
+}
+
+.float-updown.img2 {
+    margin: -40px auto 0;
+    --float-range: 12px;
+}
+
+/* #region анімація чорних полосок*/
+    /* element entrance: slide in relative to its own height; add .from-bottom to slide from below */
+    .element-slide-in {
+        will-change: transform, opacity;
+        animation: element-slide-in 1.3s cubic-bezier(.2,.9,.3,1) both;
+        --slide-offset: -40px;
+    }
+
+    .element-slide-in.from-bottom {
+        --slide-offset: 40px;
+    }
+
+    @keyframes element-slide-in {
+        from {
+            transform: translateY(var(--slide-offset));
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+/* #endregion */
+
+/* #region анімація прогресбар*/
+
+    .progress {
+        --progress: 50%; /* set inline or via style attribute: style="--progress:70%" */
+        --track-color: #e6e6e6;
+        --bar-color: #ffee01;
+        --stripe-size: 57px; /* size + animated offset for progress stripes */
+        width: 95%;
+        height: 10px;
+        background: var(--track-color);
+        border-radius: 9px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.12);
+        position: absolute;
+        bottom: 13%;
+
+        opacity: 0;
+        animation: progress-fade-in 600ms ease 1s forwards;
+    }
+
+    .progress__fill {
+        background: var(--bar-color);
+        transition: width 300ms ease;
+        overflow: hidden;
+        /* ensure the fill has an explicit width based on the progress and contains the pseudo-element */
+        
+        display: block;
+    }
+
+    /* striped overlay and animation */
+    .progress__fill::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+            135deg,
+            rgb(255, 149, 0) 0 10px,
+            rgba(255, 255, 255, 0) 10px 20px
+        );
+        /* match this value to the animated offset so the stripe movement loops seamlessly */
+        background-size: var(--stripe-size);
+
+        animation: progress-stripes 1.5s linear infinite;
+        pointer-events: none;
+    }
+
+    /* keyframes */
+    @keyframes progress-stripes {
+        from { background-position: 0 0; }
+        to   { background-position: var(--stripe-size) 0; }
+    }
+
+    @keyframes progress-fade-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    /* #endregion */
+
+/* #endregion */
+
+@font-face {
+    font-family: 'HALO';
+    src: url(../fonts/HALO___.TTF);
+}
+
+@font-face {
+    font-family: 'GENO';
+    src: url(../fonts/astral.ttf);
+}
+
+@font-face {
+    font-family: 'DELO';
+    src: url(../fonts/Delogs.ttf);
+}
