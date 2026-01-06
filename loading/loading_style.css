@@ -59,6 +59,9 @@ font-size: 30px;
   position: absolute;
   bottom: 17.5%;
   width: 90%;
+
+  opacity: 0;
+  animation: progress-fade-in 600ms ease 1s forwards;
 }
 
 .desc {
@@ -229,4 +232,5 @@ font-size: 30px;
 @font-face {
     font-family: 'DELO';
     src: url(../fonts/Delogs.ttf);
+
 }
