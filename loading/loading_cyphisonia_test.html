@@ -44,22 +44,29 @@
 <script src="cyp_rules.js"></script>
 
 <script>
-    const divs = document.querySelectorAll('.desc');
-const fadeDuration = 1000;      // 600ms fade-in/out
-const holdDuration = 6800;     // ~6.8s visible
-const totalDivs = divs.length;
+const divs = document.querySelectorAll('.desc');
+const fadeDuration = 1000;      // 1000ms fade-in/out
+const holdDuration = 6800;      // fully visible
+const slotDuration = fadeDuration * 2 + holdDuration; // total time per div
 let current = 0;
 
-function showNext() {
-  const div = divs[current];
+// Initialize all divs hidden
+divs.forEach(d => {
+  d.style.opacity = 0;
+  div.style.visibility = 'hidden';
+});
 
-  // Make div visible before fade-in
+// Function to show a div
+function showDiv(index) {
+  const div = divs[index];
+
+  // Fade in
   div.style.visibility = 'visible';
-  div.style.opacity = 1;  // fade-in
+  div.style.opacity = 1;
 
-  // Schedule fade-out after holdDuration
+  // Fade out after holdDuration
   setTimeout(() => {
-    div.style.opacity = 0; // fade-out
+    div.style.opacity = 0;
 
     // Hide completely after fadeDuration
     setTimeout(() => {
@@ -67,23 +74,18 @@ function showNext() {
     }, fadeDuration);
 
   }, holdDuration);
-
-  // Move to next div after full cycle
-  current = (current + 1) % totalDivs;
-  setTimeout(showNext, holdDuration + fadeDuration);
 }
 
-// Initialize all divs
-divs.forEach(d => {
-  d.style.opacity = 0;
-  d.style.visibility = 'hidden';
-});
+// Show first div immediately
+showDiv(current);
 
-// Start the loop after optional delay
-setTimeout(showNext, 1000);
-
-
+// Loop every slotDuration
+setInterval(() => {
+  current = (current + 1) % divs.length;
+  showDiv(current);
+}, slotDuration);
 </script>
 
 </body>
+
 </html>
