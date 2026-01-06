@@ -61,7 +61,7 @@ font-size: 30px;
   width: 90%;
 
   opacity: 0;
-  animation: progress-fade-in 600ms ease 5s forwards;
+  animation: progress-fade-in 600ms ease 1s forwards;
 }
 
 .desc {
@@ -234,4 +234,5 @@ font-size: 30px;
     src: url(../fonts/Delogs.ttf);
 
 }
+
 
