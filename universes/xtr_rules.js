@@ -1,17 +1,17 @@
 
 
-//const img = document.getElementById("headerImage");
-//const header = document.getElementById("headerPic");
+const img = document.getElementById("headerImage");
+const header = document.getElementById("headerPic");
 
-//function showHeader() {
-//  header.classList.add("loaded");
-//}
+function showHeader() {
+  header.classList.add("loaded");
+}
 
-//if (img.complete) {
-//  showHeader();
-//} else {
-//  img.onload = showHeader;
-//}
+if (img.complete) {
+  showHeader();
+} else {
+  img.onload = showHeader;
+}
 
 // Side Stripe Animation
 document.querySelectorAll(".side-stripe").forEach((stripe) => {
