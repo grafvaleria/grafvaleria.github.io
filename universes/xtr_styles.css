@@ -1,0 +1,180 @@
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(to bottom, #A9FFF0, #2abcff);
+  display: flex;
+  font-family: system-ui, -apple-system, sans-serif;
+  flex-direction: column;
+}
+
+/* #region SIDE STRIPES */
+
+.side-stripe {
+  position: fixed;
+  top: 0;
+  height: 65%;
+  width: 12.5%;
+  background-color: white;
+  z-index: 100;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
+}
+
+.side-stripe img {
+  position: absolute;
+  width: 60%;
+  height: auto;
+  box-sizing: border-box; 
+  object-fit: contain;
+  top: 0;
+  left: 50%;
+}
+
+.side-stripe.left {
+  left: 0;
+}
+
+.side-stripe.right {
+  right: 0;
+}
+
+/* #endregion */
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Utility Classes */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* #region HEADER */
+
+.header-pic {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.svg-button {
+
+  border: none;
+  overflow: hidden;
+
+  display: block;
+}
+
+.header-pic.loaded #headerImage {
+  animation: headerFadeIn 1.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes headerFadeIn {
+  from {
+    opacity: 0.3;
+    transform: translate3d(0, -5px, 0);
+  }
+
+  to {
+    opacity: 0.8;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+#headerImage {
+  opacity: 0.3;
+}
+
+.header-pic img {
+  width: 75%;
+  height: auto;
+  display: block;
+
+  backface-visibility: hidden;
+}
+
+.charas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.svg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+}
+
+/* Ensures the SVG inside follows the wrapper's dimensions */
+.svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Use these classes to move individual SVGs around */
+.svg-ch {
+  height: 49%; /* Set your desired height */
+  width: auto;    /* Keep width proportional */
+  top: 51.2%;         /* Adjust this to move the character down */
+  left: 29.8%;        /* Adjust this to move the character right */
+  z-index: 6;
+}
+.svg-cy {
+  height: 32%;
+  width: auto;
+  top: 24.3%;
+  left: 12.2%;
+  z-index: 5;
+}
+.svg-wf {
+  height: 49%;
+  width: auto;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  opacity: 0;
+}
+.svg-cl {
+  height: 49%;
+  width: auto;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  opacity: 0;
+}
+.svg-kn {
+  height: 49%;
+  width: auto;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+}
+
+/* #endregion */
