@@ -1,180 +1,228 @@
+:root {
+	color-scheme: light;
+	font-family: "Arial Black", Impact, sans-serif;
+}
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+* {
+	box-sizing: border-box;
 }
 
 body {
-  background: linear-gradient(to bottom, #A9FFF0, #2abcff);
-  display: flex;
-  font-family: system-ui, -apple-system, sans-serif;
-  flex-direction: column;
+	margin: 0;
+	min-height: 100vh;
+	background: #fff;
+	color: #fff;
 }
 
-/* #region SIDE STRIPES */
-
-.side-stripe {
-  position: fixed;
-  top: 0;
-  height: 65%;
-  width: 12.5%;
-  background-color: white;
-  z-index: 100;
-  overflow: hidden;
-  mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
+.title-bar {
+	display: grid;
+	min-height: 7.25rem;
+	padding: 1.25rem;
+	place-items: center;
+	background: #000;
+	text-align: center;
 }
 
-.side-stripe img {
-  position: absolute;
-  width: 60%;
-  height: auto;
-  box-sizing: border-box; 
-  object-fit: contain;
-  top: 0;
-  left: 50%;
+.title-bar h1 {
+	margin: 0;
+	font-size: clamp(1.65rem, 5vw, 3.6rem);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
-.side-stripe.left {
-  left: 0;
+.selector {
+	width: 100%;
+	padding: 0;
 }
 
-.side-stripe.right {
-  right: 0;
+.image-panel {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(0.75rem, 2vw, 1.5rem);
+	padding: clamp(1.25rem, 3vw, 2.5rem);
+	min-height: clamp(20rem, 30vw, 26rem);
+	margin: 0;
+	background: linear-gradient(135deg, #539dff 0%, #7dffff 48%, #539dff 100%);
+	box-shadow: inset 0 0 50px 2px rgba(0, 0, 0, 0.24);
+	overflow: hidden;
 }
 
-/* #endregion */
-
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: opacity 0.3s ease;
+.image-panel-copy {
+	position: relative;
+	z-index: 1;
+	flex: 0 1 24rem;
+	max-width: 28rem;
+	margin-right: auto;
+	margin-left: clamp(1rem, 6vw, 7rem);
+	padding: clamp(1rem, 2.2vw, 1.5rem);
+	border: 2px solid rgba(255, 255, 255, 0.42);
+	background: rgba(0, 0, 0, 0.18);
+	backdrop-filter: blur(3px);
+	opacity: 0;
+	transform: translateX(-24px);
+	transition: opacity 0.35s ease, transform 0.35s ease;
+	pointer-events: none;
 }
 
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.image-panel-copy.is-visible {
+	opacity: 1;
+	transform: translateX(0);
 }
 
-/* Utility Classes */
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.image-panel-copy__text {
+	margin: 0;
+	font-size: clamp(1rem, 2vw, 1.55rem);
+	line-height: 1.35;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-wrap: balance;
 }
 
-/* #region HEADER */
-
-.header-pic {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
+.image-panel .character-display {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: 0 0 0 15%;
+	width: min(68%, 34rem);
+	height: auto;
+	max-height: 100%;
+	object-fit: contain;
+	opacity: 0;
+	transform: translateX(calc(100vw + 2rem)) translateY(-50%);
+	transition: opacity 1.5s ease, transform 0.6s ease;
+	pointer-events: none;
 }
 
-.svg-button {
-
-  border: none;
-  overflow: hidden;
-
-  display: block;
+.image-panel .character-display.from-left {
+	transform: translateX(calc(-100vw - 2rem)) translateY(-50%);
 }
 
-.header-pic.loaded #headerImage {
-  animation: headerFadeIn 1.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+.image-panel .character-display.from-right {
+	transform: translateX(calc(100vw + 2rem)) translateY(-50%);
 }
 
-@keyframes headerFadeIn {
-  from {
-    opacity: 0.3;
-    transform: translate3d(0, -5px, 0);
-  }
-
-  to {
-    opacity: 0.8;
-    transform: translate3d(0, 0, 0);
-  }
+.image-panel .character-display.is-active {
+	opacity: 1;
+	transform: translateX(-50%) translateY(-50%);
 }
 
-#headerImage {
-  opacity: 0.3;
+.image-panel .character-display.exit-left {
+	opacity: 0;
+	transform: translateX(calc(-100vw - 2rem)) translateY(-50%);
 }
 
-.header-pic img {
-  width: 75%;
-  height: auto;
-  display: block;
-
-  backface-visibility: hidden;
+.image-panel .character-display.exit-right {
+	opacity: 0;
+	transform: translateX(calc(100vw + 2rem)) translateY(-50%);
 }
 
-.charas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 5;
+@media (max-width: 900px) {
+	.image-panel {
+		flex-direction: column;
+	}
+
+	.image-panel-copy {
+		max-width: none;
+		flex-basis: auto;
+		width: min(100%, 36rem);
+	}
+
+	.image-panel .character-display {
+		left: 50%;
+		width: min(78%, 30rem);
+		transform: translateX(calc(100vw + 2rem)) translateY(-50%);
+	}
+
+	.image-panel .character-display.from-left {
+		transform: translateX(calc(-100vw - 2rem)) translateY(-50%);
+	}
+
+	.image-panel .character-display.from-right {
+		transform: translateX(calc(100vw + 2rem)) translateY(-50%);
+	}
+
+	.image-panel .character-display.is-active {
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+	.image-panel .character-display.exit-left {
+		transform: translateX(calc(-100vw - 2rem)) translateY(-50%);
+	}
+
+	.image-panel .character-display.exit-right {
+		transform: translateX(calc(100vw + 2rem)) translateY(-50%);
+	}
 }
 
-.svg-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: auto;
+.character-grid {
+	--cols: 7;
+	display: grid;
+	grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+	border: 3px solid #000;
+	background: #000;
+	gap: 2px;
 }
 
-/* Ensures the SVG inside follows the wrapper's dimensions */
-.svg-wrapper svg {
-  width: 100%;
-  height: 100%;
-  display: block;
+.character-button {
+	aspect-ratio: 1 / 1;
+	border: 0;
+	background: #050505;
+	color: #fff;
+	cursor: pointer;
+	font: inherit;
+	font-size: clamp(1.2rem, 3vw, 2.6rem);
+	padding: 0;
+	overflow: hidden;
+	transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
-/* Use these classes to move individual SVGs around */
-.svg-ch {
-  height: 49%; /* Set your desired height */
-  width: auto;    /* Keep width proportional */
-  top: 51.2%;         /* Adjust this to move the character down */
-  left: 29.8%;        /* Adjust this to move the character right */
-  z-index: 6;
-}
-.svg-cy {
-  height: 32%;
-  width: auto;
-  top: 24.3%;
-  left: 12.2%;
-  z-index: 5;
-}
-.svg-wf {
-  height: 49%;
-  width: auto;
-  top: 0;
-  left: 0;
-  z-index: 4;
-  opacity: 0;
-}
-.svg-cl {
-  height: 49%;
-  width: auto;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  opacity: 0;
-}
-.svg-kn {
-  height: 49%;
-  width: auto;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  opacity: 0;
+.character-button img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
 }
 
-/* #endregion */
+.character-button:hover,
+.character-button:focus-visible {
+	background: #1c1c1c;
+	box-shadow: inset 0 0 0 5px #fff;
+	outline: none;
+}
+
+.character-button:active,
+.character-button.is-selected {
+	background: #fff;
+	color: #000;
+	box-shadow: inset 0 0 0 5px #000;
+	transform: scale(0.98);
+}
+
+@media (max-width: 1200px) {
+	.character-grid {
+		--cols: 6;
+	}
+}
+
+@media (max-width: 900px) {
+	.character-grid {
+		--cols: 5;
+	}
+}
+
+@media (max-width: 700px) {
+	.character-grid {
+		--cols: 4;
+	}
+}
+
+@media (max-width: 560px) {
+	.character-grid {
+		--cols: 3;
+		border-width: 2px;
+		gap: 1px;
+	}
+}

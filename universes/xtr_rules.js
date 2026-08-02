@@ -1,51 +1,83 @@
+const panel = document.querySelector('.image-panel');
+const panelText = document.querySelector('.image-panel-copy__text');
+const panelCopy = document.querySelector('.image-panel-copy');
+const buttons = Array.from(document.querySelectorAll('.character-button'));
+let activeImage = null;
+let activeButton = null;
+let activeIndex = -1;
+let textRevealTimeout = null;
 
+function showCharacter(button) {
+  const nextIndex = buttons.indexOf(button);
+  const img = button.querySelector('img');
+  if (!img || !panel) return;
 
-const img = document.getElementById("headerImage");
-const header = document.getElementById("headerPic");
+  if (button === activeButton) return;
 
-function showHeader() {
-  header.classList.add("loaded");
-}
+  const src = img.getAttribute('src');
+  const alt = img.getAttribute('alt') || button.getAttribute('aria-label') || 'Character';
+  const movingForward = activeIndex === -1 || nextIndex > activeIndex;
+  const nextText = button.dataset.description || alt;
 
-if (img.complete) {
-  showHeader();
-} else {
-  img.onload = showHeader;
-}
+  const nextImage = document.createElement('img');
+  nextImage.className = 'character-display';
+  nextImage.classList.add(movingForward ? 'from-right' : 'from-left');
+  nextImage.src = src;
+  nextImage.alt = alt;
+  panel.appendChild(nextImage);
 
-// Side Stripe Animation
-document.querySelectorAll(".side-stripe").forEach((stripe) => {
-  const imgs = stripe.querySelectorAll("img");
+  if (panelText && panelCopy) {
+    window.clearTimeout(textRevealTimeout);
+    panelCopy.classList.remove('is-visible');
+    panelText.textContent = nextText;
+  }
 
-  imgs.forEach((img, i) => {
-    img.animate(
-      [
-        { transform: "translateX(-50%) translateY(-120%)" },
-        { transform: "translateX(-50%) translateY(180%)" },
-      ],
-      {
-        duration: 10000,
-        iterations: Infinity,
-        easing: "linear",
-        iterationStart: i === 1 ? 0.5 : 0,
-      },
-    );
-  });
-});
+  if (activeImage) {
+    const previousImage = activeImage;
+    activeImage.classList.remove('is-active');
+    previousImage.classList.add(movingForward ? 'exit-left' : 'exit-right');
+    activeImage = nextImage;
 
-//SVGS
-
-const svgFiles = ["ch.svg", "cy.svg", "wf.svg", "cl.svg", "kn.svg"];
-const container = document.getElementById("svgContainer");
-
-svgFiles.forEach(file => {
-  const name = file.split('.')[0];
-  fetch(`pics/ch/${file}`)
-    .then(response => response.text())
-    .then(svgContent => {
-      const wrapper = document.createElement("div");
-      wrapper.classList.add("svg-wrapper", `svg-${name}`);
-      wrapper.innerHTML = svgContent;
-      container.appendChild(wrapper);
+    requestAnimationFrame(() => {
+      nextImage.classList.add('is-active');
     });
+
+    if (panelCopy) {
+      textRevealTimeout = window.setTimeout(() => {
+        panelCopy.classList.add('is-visible');
+      }, 240);
+    }
+
+    window.setTimeout(() => {
+      previousImage.remove();
+    }, 1000);
+  } else {
+    activeImage = nextImage;
+
+    requestAnimationFrame(() => {
+      nextImage.classList.add('is-active');
+    });
+
+    if (panelCopy) {
+      textRevealTimeout = window.setTimeout(() => {
+        panelCopy.classList.add('is-visible');
+      }, 240);
+    }
+  }
+
+  if (activeButton) {
+    activeButton.classList.remove('is-selected');
+  }
+
+  button.classList.add('is-selected');
+  activeButton = button;
+  activeIndex = nextIndex;
+}
+
+buttons.forEach((button) => {
+  button.addEventListener('click', () => showCharacter(button));
 });
+
+if (buttons.length) {
+  showCharacter(buttons[0]);
+}
